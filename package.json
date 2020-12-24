@@ -1,0 +1,29 @@
+{
+  "name": "sample-data-generator",
+  "version": "0.0.1",
+  "description": "Generates realistic sample loans datasets. Used for testing.",
+  "author": "Tobias Hoelzer <tobiashoelzer@hotmail.com>",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest",
+    "format": "prettier --write \"src/**/*.js\" \"tests/**/*.js\"",
+    "lint": "eslint --fix \"{src,tests}/**/*.js\""
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
+  }
+}
