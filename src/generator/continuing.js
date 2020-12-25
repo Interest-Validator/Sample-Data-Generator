@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 
-const { randomInt, randomDate, correctRound, randomNBM, randomAmount } = require('../utils')
+const { randomInt, randomDate, correctRound, randomNBM } = require('../utils')
 
 class ContinuingLoan {
   constructor(id, balance, rate, nominalInterest, startDate) {
@@ -17,13 +17,14 @@ class ContinuingLoan {
  * Generates a Loan with the following properties:
  * Simple - Loan with minimum requirements (id, balance, rate, interest, startDate) with a period duration of 12 month - Alternative would be Complex with all possible Parameters
  * Valid - Loan shouldn't raise an Error nor a Warning when calculated - Alternative would be Error or Warning
+ * Realistic - More Realistic generation of random values with normal distribution
  * Continuing - Normal Loan, returns currentLoan and recentLoan - Alternatives would be New or Expiring
  */
-function generateSimpleValidContinuingLoan() {
+function generateSimpleValidRealisticContinuingLoan() {
   const id = uuidv4()
   const currentBalance = correctRound(randomNBM(0.01, 1_000_000_000, 15), 2)
 
-  const nominalInterest = randomAmount(0.1, 10)
+  const nominalInterest = correctRound(randomNBM(0.1, 10, 2), 2)
 
   const today = new Date()
   const minDate = new Date(today.getFullYear() - 1, 0, 1)
@@ -54,4 +55,4 @@ function generateSimpleValidContinuingLoan() {
   return { currentLoan, previousLoan }
 }
 
-module.exports = { generateSimpleValidContinuingLoan }
+module.exports = { generateSimpleValidRealisticContinuingLoan }
