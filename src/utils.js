@@ -1,9 +1,21 @@
+class Loan {
+  constructor(id, balance, rate, nominalInterest, startDate) {
+    // Required Parameter -> No Defaults
+    this.id = id
+    this.balance = balance
+    this.rate = rate
+    this.nominalInterest = nominalInterest
+    this.startDate = startDate
+  }
+}
+
 /**
  * Rounds a Float more correct than the normal Math.round or toFixed, but still doesn't always correct
  * @param {number} number To be rounded value
  * @param {number} digits Amount of digits, default 2
  */
 function correctRound(number, digits) {
+  digits = typeof digits === 'number' ? digits : 2
   const rounder = Math.pow(10, digits)
   return +Math.round((number + Number.EPSILON) * rounder) / rounder
 }
@@ -21,22 +33,10 @@ function randomInt(min, max) {
  * Return a random Float in a specific range
  * @param {number} min Inclusive Minimum
  * @param {number} max Inclusive Maximum
+ * @param {number} digits Amount of digits, default 2
  */
-function randomFloat(min, max) {
-  return Math.random() * (max - min) + min
-}
-
-/**
- * Return a random Float in a specific range with two digits
- * @param {number} min Inclusive Minimum
- * @param {number} max Inclusive Maximum
- * @param {number} digits Number of digits
- */
-function randomAmount(min, max, digits) {
-  digits = digits ? Math.round(digits) : 2
-  let amount = randomFloat(min, max)
-  amount = correctRound(amount, digits)
-  return amount
+function randomFloat(min, max, digits) {
+  return correctRound(Math.random() * (max - min) + min, digits)
 }
 
 /**
@@ -53,8 +53,9 @@ function randomDate(min, max) {
  * @param {number} min Inclusive Minimum
  * @param {number} max Inclusive Maximum
  * @param {number} skew Skew Factor
+ * @param {number} digits Amount of digits, default 2
  */
-function randomNBM(min, max, skew) {
+function randomNBM(min, max, skew, digits) {
   let u = 0
   let v = 0
   while (u === 0) u = Math.random() // Converting [0,1) to (0,1)
@@ -66,14 +67,15 @@ function randomNBM(min, max, skew) {
   num = Math.pow(num, skew) // Skew
   num *= max - min // Stretch to fill range
   num += min // offset to min
-  return num
+
+  return correctRound(num, digits)
 }
 
-module.exports = {
-  randomInt,
-  randomFloat,
-  randomAmount,
-  randomDate,
-  correctRound,
-  randomNBM,
+const random = {
+  Int: randomInt,
+  Float: randomFloat,
+  Date: randomDate,
+  NBM: randomNBM,
 }
+
+module.exports = { random, Loan, correctRound }
