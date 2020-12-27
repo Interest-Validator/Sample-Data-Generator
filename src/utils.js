@@ -97,6 +97,27 @@ class LoanSettings {
     // Additional data
     this.seperator = loanSettings.seperator || ';'
   }
+
+  toObject(useJsDate) {
+    return {
+      incomeAmount: this.incomeAmount,
+      isPercentualInterest: this.isPercentualInterest,
+      currentReportingDate: useJsDate
+        ? this.currentReportingDate
+        : DateTime.fromJSDate(this.currentReportingDate).toFormat(this.dateFormat),
+      previousReportingDate: useJsDate
+        ? this.previousReportingDate
+        : DateTime.fromJSDate(this.previousReportingDate).toFormat(this.dateFormat),
+      considerationStartDate: useJsDate
+        ? this.considerationEndDate
+        : DateTime.fromJSDate(this.considerationStartDate).toFormat(this.dateFormat),
+      considerationEndDate: useJsDate
+        ? this.considerationEndDate
+        : DateTime.fromJSDate(this.considerationEndDate).toFormat(this.dateFormat),
+      withCutoff: this.withCutoff,
+      dateFormat: this.dateFormat,
+    }
+  }
 }
 
 /**
