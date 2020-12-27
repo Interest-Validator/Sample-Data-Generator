@@ -1,3 +1,5 @@
+const { DateTime } = require('luxon')
+
 class Loan {
   /**
    * Generates Loan with the attributes given from the Dataset Definition
@@ -7,7 +9,7 @@ class Loan {
    * @param {number} loan.installmentRate Installment Rate of loan
    * @param {number} loan.interestRate Interest Rate of loan
    * @param {('A'|'I'|'T')} loan.redemptionMethod Method of redemption: 'A' for Anuity Loans, 'I' for Installment Loans and 'T' for Term Loans
-   * @param {string} loan.curreny Currency Code after ISO 4217 used for loan values
+   * @param {string} loan.currency Currency Code after ISO 4217 used for loan values
    * @param {number} [loan.paymentAmount] Amount of first Payment
    * @param {Date} [loan.paymentDate] Date of first Payment, also begin of loan
    * @param {Date} [loan.contractualEndDate] Date of last Payment, end of loan
@@ -25,7 +27,7 @@ class Loan {
     this.installmentRate = loan.installmentRate
     this.interestRate = loan.interestRate
     this.redemptionMethod = loan.redemptionMethod
-    this.curreny = loan.curreny
+    this.currency = loan.currency
 
     // Additional Data
     this.paymentAmount = loan.paymentAmount
@@ -39,20 +41,30 @@ class Loan {
     this.numberFormat = loan.numberFormat || 'de-DE'
   }
 
-  toCSV() {
-    return 0
-  }
-
-  toJSON() {
-    return 0
-  }
-
-  toExcel() {
-    return 0
-  }
-
-  toAccess() {
-    return 0
+  toObject(dateFormat) {
+    return {
+      contractId: this.contractId,
+      currentBalance: this.currentBalance,
+      installmentRate: this.installmentRate,
+      interestRate: this.interestRate,
+      redemptionMethod: this.redemptionMethod,
+      currency: this.currency,
+      paymentAmount: this.paymentAmount,
+      paymentDate: dateFormat ? DateTime.fromJSDate(this.paymentDate).toFormat(dateFormat) : this.paymentDate,
+      contractualEndDate: dateFormat
+        ? DateTime.fromJSDate(this.contractualEndDate).toFormat(dateFormat)
+        : this.contractualEndDate,
+      yearlyInterestPayments: this.yearlyInterestPayments,
+      yearlyRedemptionPayments: this.yearlyRedemptionPayments,
+      interestPaymentDate: dateFormat
+        ? DateTime.fromJSDate(this.interestPaymentDate).toFormat(dateFormat)
+        : this.interestPaymentDate,
+      redemptionPaymentDate: dateFormat
+        ? DateTime.fromJSDate(this.redemptionPaymentDate).toFormat(dateFormat)
+        : this.redemptionPaymentDate,
+      interestMethod: this.interestMethod,
+      numberFormat: this.numberFormat,
+    }
   }
 }
 
@@ -80,7 +92,7 @@ class LoanSettings {
     this.considerationStartDate = loanSettings.considerationStartDate || loanSettings.previousReportingDate
     this.considerationEndDate = loanSettings.considerationEndDate || loanSettings.currentReportingDate
     this.withCutoff = loanSettings.withCutoff || false
-    this.dateFormat = loanSettings.dateFormat || 'DD.MM.YYYY'
+    this.dateFormat = loanSettings.dateFormat || 'dd.MM.yyyy'
 
     // Additional data
     this.seperator = loanSettings.seperator || ';'
@@ -129,7 +141,7 @@ function randomDate(min, max) {
 /**
  * Returns a random number generated with the normal distribution with the Box-Mueller-Transform
  * @param {number} min Inclusive Minimum
- * @param {number} max Inclusive Maximum
+ * @param {number} max Exclusive Maximum
  * @param {number} skew Skew Factor
  * @param {number} [digits=2] Amount of digits
  */

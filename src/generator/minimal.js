@@ -79,7 +79,7 @@ function generateLoan(settings, type, mode, realistic) {
 
   const contractId = uuidv4()
   const redemptionMethod = 'A'
-  const curreny = 'EUR'
+  const currency = 'EUR'
 
   const interestRate = generateInterestRate(realistic)
   const paymentAmount = generatePaymentAmount(realistic)
@@ -101,7 +101,7 @@ function generateLoan(settings, type, mode, realistic) {
       installmentRate,
       interestRate,
       redemptionMethod,
-      curreny,
+      currency,
 
       paymentAmount,
       paymentDate,
@@ -117,7 +117,7 @@ function generateLoan(settings, type, mode, realistic) {
       installmentRate,
       interestRate,
       redemptionMethod,
-      curreny,
+      currency,
 
       paymentAmount,
       paymentDate,
