@@ -9,38 +9,37 @@ function generatePaymentAmount(realistic) {
 
 function generatePaymentDate(settings, type, mode, realistic) {
   let min, max
-  let paymentDate, contractualEndDate, term
-  if (realistic) {
-    const reportingPeriodStart = new Date(settings.previousReportingDate)
-    const reportingPeriodEnd = new Date(settings.currentReportingDate)
+  let paymentDate, contractualEndDate
 
-    term = parseInt(random.NBM(1, 50, 1)) // Years
-    if (type === 'continuing') {
-      min = new Date(reportingPeriodEnd)
-      min.setFullYear(min.getFullYear() - term)
-      max = new Date(reportingPeriodStart)
+  const reportingPeriodStart = new Date(settings.previousReportingDate)
+  const reportingPeriodEnd = new Date(settings.currentReportingDate)
 
-      paymentDate = random.Date(min, max)
+  const term = parseInt(random.NBM(1, 50, 1)) // Years
+  if (type === 'continuing') {
+    min = new Date(reportingPeriodEnd)
+    min.setFullYear(min.getFullYear() - term)
+    max = new Date(reportingPeriodStart)
 
-      contractualEndDate = new Date(paymentDate)
-      contractualEndDate.setFullYear(contractualEndDate.getFullYear() + term)
-    } else if (type === 'new') {
-      min = new Date(reportingPeriodStart)
-      max = new Date(reportingPeriodEnd)
+    paymentDate = random.Date(min, max)
 
-      paymentDate = random.Date(min, max)
+    contractualEndDate = new Date(paymentDate)
+    contractualEndDate.setFullYear(contractualEndDate.getFullYear() + term)
+  } else if (type === 'new') {
+    min = new Date(reportingPeriodStart)
+    max = new Date(reportingPeriodEnd)
 
-      contractualEndDate = new Date(paymentDate)
-      contractualEndDate.setFullYear(contractualEndDate.getFullYear() + term)
-    } else if (type === 'expired') {
-      min = new Date(reportingPeriodStart)
-      max = new Date(reportingPeriodEnd)
+    paymentDate = random.Date(min, max)
 
-      contractualEndDate = random.Date(min, max)
+    contractualEndDate = new Date(paymentDate)
+    contractualEndDate.setFullYear(contractualEndDate.getFullYear() + term)
+  } else if (type === 'expired') {
+    min = new Date(reportingPeriodStart)
+    max = new Date(reportingPeriodEnd)
 
-      paymentDate = new Date(contractualEndDate)
-      paymentDate.setFullYear(paymentDate.getFullYear() - term)
-    }
+    contractualEndDate = random.Date(min, max)
+
+    paymentDate = new Date(contractualEndDate)
+    paymentDate.setFullYear(paymentDate.getFullYear() - term)
   }
 
   return { paymentDate, contractualEndDate, term }
