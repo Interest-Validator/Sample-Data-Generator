@@ -5,7 +5,7 @@ const { generateFile } = require('./generate')
 const { LoanSettings } = require('./utils')
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3301
 
 const dirname = path.join(__dirname, '..', 'samples')
 if (!fs.existsSync(dirname)) fs.mkdirSync(dirname)
