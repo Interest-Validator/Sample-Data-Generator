@@ -22,7 +22,7 @@ function getType(realistic) {
 /**
  * Generates Loan Sample Files
  * @param {string} name File Name
- * @param {('minimal'|'full'|'all-options')} stype Sample Type
+ * @param {('minimal'|'full'|'possibilities')} stype Sample Type
  * @param {number} n Number of Loans
  * @param {object} settings Loan Settings
  * @param {boolean} [realistic=true] Generates Loans values with normal distribution
